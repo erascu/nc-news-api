@@ -56,3 +56,22 @@ describe("GET /api/topics", () => {
       });
   });
 });
+
+describe("GET /api/articles/:article_id", () => {
+  test("400: Returns bad request if article_id is NaN", () => {
+    return request(app)
+      .get("/api/articles/isNaN")
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Bad request");
+      });
+  });
+  test("404: Returns - ID Not Found", () => {
+    return request(app)
+      .get("/api/articles/3333")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("ID Not Found!");
+      });
+  });
+});
