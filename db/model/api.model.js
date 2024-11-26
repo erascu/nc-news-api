@@ -31,3 +31,11 @@ exports.selectArticles = () => {
       return rows;
     });
 };
+
+exports.selectComments = (article_id) => {
+  const sqlQuery = `SELECT * FROM comments WHERE article_id = $1 ORDER BY comment_id ASC`;
+  const values = [article_id];
+  return db.query(sqlQuery, values).then(({ rows }) => {
+    return rows;
+  });
+};
