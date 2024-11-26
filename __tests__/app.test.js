@@ -34,7 +34,7 @@ describe("GET /api/topics", () => {
         expect(body.topics).toHaveLength(3);
       });
   });
-  test.only("200: Returns an array of topic objects with slug and description properties", () => {
+  test("200: Returns an array of topic objects with slug and description properties", () => {
     return request(app)
       .get("/api/topics")
       .expect(200)
@@ -76,7 +76,7 @@ describe("GET /api/articles/:article_id", () => {
   });
 });
 
-describe.only("GET /api/articles", () => {
+describe("GET /api/articles", () => {
   test("200: Returns an array of articles objects", () => {
     return request(app)
       .get("/api/articles")
@@ -110,6 +110,55 @@ describe.only("GET /api/articles", () => {
       .expect(404)
       .then(({ body }) => {
         expect(body.msg).toBe("Not found");
+      });
+  });
+});
+
+describe.only("GET /api/articles/:article_id/comments", () => {
+  test("200: Returns an array of comments objects", () => {
+    return request(app)
+      .get("/api/articles/1/comments")
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.comments).toHaveLength(11);
+        body.comments.forEach((comment) => {
+          expect(comment).toMatchObject({
+            comment_id: expect.any(Number),
+            body: expect.any(String),
+            article_id: expect.any(Number),
+            author: expect.any(String),
+            votes: expect.any(Number),
+            created_at: expect.any(String),
+          });
+        });
+      });
+  });
+  test("200: Returns an array of comments objects with comment_id in ASC order", () => {
+    return request(app)
+      .get("/api/articles/3/comments")
+      .expect(200)
+      .then(({ body }) => {
+        body.comments.forEach((comment) => {
+          let prevCommentId = 0;
+          expect(comment.comment_id).toBeGreaterThan(prevCommentId);
+          prevCommentId = comment.comment_id;
+        });
+      });
+  });
+  test("404: Returns 'No comments found for this article'", () => {
+    return request(app)
+      .get("/api/articles/37/comments")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("No comments found for this article");
+      });
+  });
+  test("500: Returns 'Internal Server Error'", () => {
+    return request(app)
+      .get("/api/articles/number/comments")
+      .expect(500)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Internal Server Error");
       });
   });
 });
