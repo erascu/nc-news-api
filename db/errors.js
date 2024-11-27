@@ -9,6 +9,10 @@ exports.psqlErr = (err, req, res, next) => {
   }
 };
 
-// exports.newErr = (err, req, res, next) => {
-//   console.log(err.status);
-// };
+exports.newErr = (err, req, res, next) => {
+  if (err.status && err.msg) {
+    res.status(err.status).send({ msg: err.msg });
+  } else {
+    res.status(500).send({ msg: "Internal Server Error" });
+  }
+};
