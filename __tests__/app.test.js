@@ -114,7 +114,7 @@ describe("GET /api/articles", () => {
   });
 });
 
-describe.only("GET /api/articles/:article_id/comments", () => {
+describe("GET /api/articles/:article_id/comments", () => {
   test("200: Returns an array of comments objects", () => {
     return request(app)
       .get("/api/articles/1/comments")
@@ -159,6 +159,79 @@ describe.only("GET /api/articles/:article_id/comments", () => {
       .expect(500)
       .then(({ body }) => {
         expect(body.msg).toBe("Internal Server Error");
+      });
+  });
+});
+
+describe.only("GET /api/articles/:article_id/comments - new comment", () => {
+  test("201: Add a new comment to the article and return it'", () => {
+    const newComment = {
+      username: "butter_bridge",
+      body: "This is a new comment!",
+    };
+    return request(app)
+      .post("/api/articles/1/comments")
+      .send(newComment)
+      .expect(201)
+      .then(({ body: { comment } }) => {
+        expect(comment).toEqual(
+          expect.objectContaining({
+            comment_id: expect.any(Number),
+            body: newComment.body,
+            article_id: 1,
+            author: newComment.username,
+            votes: expect.any(Number),
+            created_at: expect.any(String),
+          })
+        );
+      });
+  });
+  test("400: Responds with an error when missing username", () => {
+    return request(app)
+      .post("/api/articles/1/comments")
+      .send({
+        body: "This comment is missing a username",
+      })
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Bad request");
+      });
+  });
+  test("400: Responds with an error when missing body", () => {
+    return request(app)
+      .post("/api/articles/1/comments")
+      .send({
+        username: "butter_bridge",
+      })
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Bad request");
+      });
+  });
+  test("400: Responds with an error when article_id is NaN", () => {
+    const newComment = {
+      username: "butter_bridge",
+      body: "This is a comment on an invalid article ID!",
+    };
+    return request(app)
+      .post("/api/articles/article_id/comments")
+      .send(newComment)
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Article ID should be a number");
+      });
+  });
+  test("404: Responds with an error when article_id does not exists", () => {
+    const newComment = {
+      username: "butter_bridge",
+      body: "This is a comment on an non-existent article ID!",
+    };
+    return request(app)
+      .post("/api/articles/333/comments")
+      .send(newComment)
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Article not found");
       });
   });
 });

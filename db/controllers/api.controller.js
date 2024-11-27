@@ -4,6 +4,7 @@ const {
   selectArticleById,
   selectArticles,
   selectComments,
+  addComment,
 } = require("../model/api.model");
 
 exports.getApi = (req, res) => {
@@ -51,5 +52,32 @@ exports.getComments = (req, res) => {
     .catch((err) => {
       // console.log(err);
       res.status(500).send({ msg: "Internal Server Error" });
+    });
+};
+
+exports.postComment = (req, res) => {
+  const { article_id } = req.params;
+  const { username, body } = req.body;
+
+  if (!username || !body) {
+    return res.status(400).send({ msg: "Bad request" });
+  }
+
+  selectArticleById(article_id)
+    .then(() => {
+      addComment(username, body, article_id)
+        .then((newComment) => {
+          res.status(201).send({ comment: newComment[0] });
+        })
+        .catch((err) => {
+          res.status(500).send({ msg: "Internal Server Error" });
+        });
+    })
+    .catch(() => {
+      if (isNaN(article_id)) {
+        res.status(400).send({ msg: "Article ID should be a number" });
+      } else {
+        res.status(404).send({ msg: "Article not found" });
+      }
     });
 };
