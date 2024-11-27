@@ -5,6 +5,7 @@ const {
   selectArticles,
   selectComments,
   addComment,
+  updateArticles,
 } = require("../model/api.model");
 
 exports.getApi = (req, res) => {
@@ -79,5 +80,20 @@ exports.postComment = (req, res) => {
       } else {
         res.status(404).send({ msg: "Article not found" });
       }
+    });
+};
+
+exports.patchArticles = (req, res, next) => {
+  const { article_id } = req.params;
+  const { inc_votes: newVote } = req.body;
+  updateArticles(article_id, newVote)
+    .then((article) => {
+      if (!article.length) {
+        res.status(404).send({ msg: "Article ID does not exists" });
+      }
+      res.status(201).send({ article });
+    })
+    .catch((err) => {
+      next(err);
     });
 };
