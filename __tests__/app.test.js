@@ -236,7 +236,7 @@ describe("POST /api/articles/:article_id/comments", () => {
   });
 });
 
-describe.only("PATCH /api/articles/:article_id", () => {
+describe("PATCH /api/articles/:article_id", () => {
   test("201: Update the votes for an article", () => {
     const updatedVote = { inc_votes: 13 };
     return request(app)
@@ -277,6 +277,28 @@ describe.only("PATCH /api/articles/:article_id", () => {
       .expect(404)
       .then(({ body }) => {
         expect(body.msg).toBe("Article ID does not exists");
+      });
+  });
+});
+
+describe.only("DELETE /api/comments/:comment_id", () => {
+  test("204: Successfully delete a comment and return no content", () => {
+    return request(app).delete("/api/comments/1").expect(204);
+  });
+  test("400: Respond with an error when comment id is invalid", () => {
+    return request(app)
+      .delete("/api/comments/isnan")
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Bad request");
+      });
+  });
+  test("404: Respond with an error when comment id does not exist", () => {
+    return request(app)
+      .delete("/api/comments/999")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Comment ID doesn't exist");
       });
   });
 });
