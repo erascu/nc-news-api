@@ -8,8 +8,9 @@ const {
   getComments,
   postComment,
   patchArticles,
+  deleteCommentById,
 } = require("./controllers/api.controller");
-const { psqlErr } = require("./errors");
+const { psqlErr, newErr } = require("./errors");
 
 app.get("/api", getApi);
 
@@ -27,10 +28,14 @@ app.post("/api/articles/:article_id/comments", postComment);
 
 app.patch("/api/articles/:article_id", patchArticles);
 
+app.delete("/api/comments/:comment_id", deleteCommentById);
+
 app.all("*", (req, res) => {
   res.status(404).send({ msg: "Not found" });
 });
 
 app.use(psqlErr);
+
+app.use(newErr);
 
 module.exports = app;
