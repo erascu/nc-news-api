@@ -163,7 +163,7 @@ describe("GET /api/articles/:article_id/comments", () => {
   });
 });
 
-describe.only("GET /api/articles/:article_id/comments - new comment", () => {
+describe("POST /api/articles/:article_id/comments", () => {
   test("201: Add a new comment to the article and return it'", () => {
     const newComment = {
       username: "butter_bridge",
@@ -232,6 +232,51 @@ describe.only("GET /api/articles/:article_id/comments - new comment", () => {
       .expect(404)
       .then(({ body }) => {
         expect(body.msg).toBe("Article not found");
+      });
+  });
+});
+
+describe.only("PATCH /api/articles/:article_id", () => {
+  test("201: Update the votes for an article", () => {
+    const updatedVote = { inc_votes: 13 };
+    return request(app)
+      .patch("/api/articles/1")
+      .send(updatedVote)
+      .expect(201)
+      .then(({ body: { article } }) => {
+        expect(article[0].votes).toBeGreaterThan(0);
+        expect(article[0].article_id).toBe(1);
+        expect(article[0].votes).toBe(113);
+      });
+  });
+  test("400: Respond with an error message when article_id is not a number", () => {
+    const updatedVote = { inc_votes: 13 };
+    return request(app)
+      .patch("/api/articles/isnan")
+      .send(updatedVote)
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Bad request");
+      });
+  });
+  test("400: Respond with an error message when inc_votes is not a number", () => {
+    const updatedVote = { inc_votes: "isnan" };
+    return request(app)
+      .patch("/api/articles/1")
+      .send(updatedVote)
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Bad request");
+      });
+  });
+  test("404: Respond with an error message when article_id does not exist", () => {
+    const updatedVote = { inc_votes: 13 };
+    return request(app)
+      .patch("/api/articles/333")
+      .send(updatedVote)
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Article ID does not exists");
       });
   });
 });
