@@ -6,6 +6,7 @@ const {
   selectComments,
   addComment,
   updateArticles,
+  removeCommentById,
 } = require("../model/api.model");
 
 exports.getApi = (req, res) => {
@@ -92,6 +93,18 @@ exports.patchArticles = (req, res, next) => {
         res.status(404).send({ msg: "Article ID does not exists" });
       }
       res.status(201).send({ article });
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
+exports.deleteCommentById = (req, res, next) => {
+  const { comment_id } = req.params;
+  removeCommentById(comment_id)
+    .then(() => {
+      // console.log("Comment deleted");
+      res.status(204).send();
     })
     .catch((err) => {
       next(err);
