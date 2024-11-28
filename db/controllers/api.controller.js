@@ -35,10 +35,15 @@ exports.getArticleById = (req, res) => {
     });
 };
 
-exports.getArticles = (req, res) => {
-  selectArticles().then((data) => {
-    res.status(200).send({ articles: data });
-  });
+exports.getArticles = (req, res, next) => {
+  const { query } = req;
+  selectArticles(query)
+    .then((data) => {
+      res.status(200).send({ articles: data });
+    })
+    .catch((err) => {
+      next(err);
+    });
 };
 
 exports.getComments = (req, res) => {
