@@ -1,7 +1,19 @@
 # Northcoders News API
 
-Welcome to the **Northcoders News API**! This is a RESTful API designed to provide programmatic access to application data, simulating a real-world backend service like Reddit, with features for managing users, articles, and topics.
+Welcome to the **Northcoders News API**! This is a RESTful API designed to simulate a real-world backend service, similar to Reddit. It allows users to interact with articles, topics, and users, and includes full CRUD functionality for managing these resources.
 
+## Hosted Version 🌐
+You can access the live API here:  
+[Northcoders News API - Live Version](https://nc-news-api-qfui.onrender.com/api)
+
+## Project Overview 📋
+This project provides endpoints to interact with the data on topics, articles, and users. It simulates a news platform where users can post articles, vote on them, and comment on topics.
+
+### Key Features:
+- User management (create, update, delete)
+- CRUD operations for articles
+- Vote on articles and comments
+- Comment on articles
 
 ## 📦 System Requirements
 
@@ -16,37 +28,71 @@ Before running the project, please ensure you have the following installed:
 
 To get the API up and running, follow these steps:
 
+### 1. Clone the Repository
 
-### 1. Install Dependencies 🛠️
+Start by cloning the repository to your local machine:
 
-First, install all required dependencies using npm:
-```sh
+```bash
+git clone https://github.com/erascu/nc-news-api.git
+```
+
+### 2. Install Dependencies 🛠️
+
+Navigate to the project directory and install the required dependencies using npm:
+```bash
+cd nc-news-api
 npm install
 ```
 
-### 2. Set up Environment Variables 🔑
+### 3. Set up Environment Variables 🔑
 
 This project uses <b>dotenv</b> to securely manage the database connection. You need to create two environment files for different environments:
 
-🔹 <b>.env.development</b> for your local development environment.\
-🔹 <b>.env.test</b> for testing purposes.
+- <b>.env.development</b> for your local development environment.
+- <b>.env.test</b> for testing purposes.
 
 <b>Steps to set up:</b>
 1. <b>Create the files</b> in the root directory of the project.
 2. Add the following lines to each file:
 
-🔹.env.development:
-  ```sh
+- .env.development:
+  ```bash
   PGDATABASE=nc_news
   ```
 
-🔹.env.test:
-```sh
+- .env.test:
+```bash
 PGDATABASE=nc_news_test
 ```
 
 ### 🛡️ Why are .env files gitignored?
 For security reasons, the <b>.env</b> files are added to <b>.gitignore</b> to prevent sensitive information (like database credentials) from being uploaded to GitHub or any other public repositories. In a real-world application, you should <b>never</b> share your actual database connection details publicly. The <b>.env</b> files are local to your machine, and by gitignoring them, we ensure your credentials remain private.
+
+### 4. Seed the Database 🌱
+Before running the API, you will need to seed the local database with initial data. Use the following command to seed the database:
+  ```bash
+  npm run seed
+  ```
+
+### 5. Run the Tests ✅
+To ensure everything is working correctly, run the tests using:
+  ```bash
+  npm test
+  ```
+
+## Available API Endpoints 🛠️
+You can interact with the following endpoints via the hosted version of the API:
+
+- <b>GET /api/topics</b> - Get all topics
+- <b>GET /api/articles</b> - Get all articles
+- <b>POST /api/articles</b> - Create a new article
+- <b>GET /api/articles/:article_id</b> - Get a single article by ID
+- <b>PATCH /api/articles/:article_id</b> - Update article votes
+- <b>DELETE /api/articles/:article_id</b> - Delete an article
+
+## Additional Information 💡
+- This project was developed to demonstrate full-stack REST API design using Node.js, Express, and PostgreSQL.
+- The project is configured for easy deployment on platforms like <b>Render</b>, and it uses <b>Supabase</b> for database management.
 
 ---
 
