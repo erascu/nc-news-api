@@ -35,6 +35,12 @@ exports.selectComments = (article_id) => {
   });
 };
 
+exports.selectUsers = () => {
+  return db.query(`SELECT * FROM users;`).then(({ rows }) => {
+    return rows;
+  });
+};
+
 exports.addComment = (username, body, article_id) => {
   return db
     .query(
