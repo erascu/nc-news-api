@@ -281,7 +281,7 @@ describe("PATCH /api/articles/:article_id", () => {
   });
 });
 
-describe.only("DELETE /api/comments/:comment_id", () => {
+describe("DELETE /api/comments/:comment_id", () => {
   test("204: Successfully delete a comment and return no content", () => {
     return request(app).delete("/api/comments/1").expect(204);
   });
@@ -299,6 +299,35 @@ describe.only("DELETE /api/comments/:comment_id", () => {
       .expect(404)
       .then(({ body }) => {
         expect(body.msg).toBe("Comment ID doesn't exist");
+      });
+  });
+});
+
+describe.only("GET /api/users", () => {
+  test("200: Responds with an array of all users", () => {
+    return request(app)
+      .get("/api/users")
+      .expect(200)
+      .then(({ body: { users } }) => {
+        expect(users.length).toBeGreaterThan(0);
+        users.forEach((user) => {
+          expect(user).toEqual({
+            username: expect.any(String),
+            name: expect.any(String),
+            avatar_url: expect.any(String),
+          });
+        });
+      });
+  });
+  test("500: Responds with an error if database fails", () => {
+    jest
+      .spyOn(db, "query")
+      .mockRejectedValueOnce(new Error("Internal Server Error"));
+    return request(app)
+      .get("/api/users")
+      .expect(500)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Internal Server Error");
       });
   });
 });
