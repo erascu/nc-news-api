@@ -68,13 +68,19 @@ PGDATABASE=nc_news_test
 ### 🛡️ Why are .env files gitignored?
 For security reasons, the <b>.env</b> files are added to <b>.gitignore</b> to prevent sensitive information (like database credentials) from being uploaded to GitHub or any other public repositories. In a real-world application, you should <b>never</b> share your actual database connection details publicly. The <b>.env</b> files are local to your machine, and by gitignoring them, we ensure your credentials remain private.
 
-### 4. Seed the Database 🌱
-Before running the API, you will need to seed the local database with initial data. Use the following command to seed the database:
+### 4. Set up the Database 🛠️
+Before seeding the database with initial data, you need to set up the database by creating and dropping the necessary tables. Run the following command to drop and create the tables:
+  ```bash
+  npm run setup-dbs
+  ```
+
+### 5. Seed the Database 🌱
+After setting up the database, you'll need to seed it with initial data. Use the following command to seed the database:
   ```bash
   npm run seed
   ```
 
-### 5. Run the Tests ✅
+### 6. Run the Tests ✅
 To ensure everything is working correctly, run the tests using:
   ```bash
   npm test
