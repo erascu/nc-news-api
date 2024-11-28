@@ -90,7 +90,7 @@ To ensure everything is working correctly, run the tests using:
 You can interact with the following endpoints via the hosted version of the API:
 
 - <b>GET /api/topics</b> - Get all topics
-- <b>GET /api/articles</b> - Get all articles or sort them by a specified field (optional query parameters: sort_by, order)
+- <b>GET /api/articles</b> - Get all articles or filter them (optional query parameters: sort_by, order)
 - <b>GET /api/articles/:article_id</b> - Get a single article by ID
 - <b>GET /api/users</b> - Get a list of all users
 - <b>POST /api/articles</b> - Create a new article
