@@ -303,7 +303,7 @@ describe("DELETE /api/comments/:comment_id", () => {
   });
 });
 
-describe.only("GET /api/users", () => {
+describe("GET /api/users", () => {
   test("200: Responds with an array of all users", () => {
     return request(app)
       .get("/api/users")
@@ -328,6 +328,57 @@ describe.only("GET /api/users", () => {
       .expect(500)
       .then(({ body }) => {
         expect(body.msg).toBe("Internal Server Error");
+      });
+  });
+});
+
+describe.only("GET /api/articles (filter)", () => {
+  test("200: Returns an array of articles, sorted by created_at in descending order by default", () => {
+    return request(app)
+      .get("/api/articles")
+      .expect(200)
+      .then(({ body: { articles } }) => {
+        expect(articles).toBeInstanceOf(Array);
+        articles.forEach((article) => {
+          expect(article).toMatchObject({
+            article_id: expect.any(Number),
+            title: expect.any(String),
+            topic: expect.any(String),
+            author: expect.any(String),
+            created_at: expect.any(String),
+            votes: expect.any(Number),
+            article_img_url: expect.any(String),
+          });
+        });
+      });
+  });
+  test("200: Returns articles sorted by votes in descending order", () => {
+    return request(app)
+      .get("/api/articles?sort_by=votes&order=desc")
+      .expect(200)
+      .then(({ body: { articles } }) => {
+        expect(articles).toBeInstanceOf(Array);
+        let prevVotes = Infinity;
+        articles.forEach((article) => {
+          expect(article.votes).toBeLessThanOrEqual(prevVotes);
+          prevVotes = article.votes;
+        });
+      });
+  });
+  test("400: Returns 'Bad request' if invalid sort_by query is provided", () => {
+    return request(app)
+      .get("/api/articles?sort_by=invalid_column")
+      .expect(400)
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Bad request");
+      });
+  });
+  test("400: Returns 'Bad request' if invalid order query is provided", () => {
+    return request(app)
+      .get("/api/articles?order=upward")
+      .expect(400)
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Bad request");
       });
   });
 });
