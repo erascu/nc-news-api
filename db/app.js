@@ -6,6 +6,7 @@ const {
   getArticleById,
   getArticles,
   getComments,
+  getUsers,
   postComment,
   patchArticles,
   deleteCommentById,
@@ -21,6 +22,8 @@ app.get("/api/articles/:article_id", getArticleById);
 app.get("/api/articles", getArticles);
 
 app.get("/api/articles/:article_id/comments", getComments);
+
+app.get("/api/users", getUsers);
 
 app.use(express.json()); //used for post request only
 

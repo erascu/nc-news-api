@@ -4,6 +4,7 @@ const {
   selectArticleById,
   selectArticles,
   selectComments,
+  selectUsers,
   addComment,
   updateArticles,
   removeCommentById,
@@ -54,6 +55,16 @@ exports.getComments = (req, res) => {
     .catch((err) => {
       // console.log(err);
       res.status(500).send({ msg: "Internal Server Error" });
+    });
+};
+
+exports.getUsers = (req, res, next) => {
+  selectUsers()
+    .then((user) => {
+      res.status(200).send({ users: user });
+    })
+    .catch((err) => {
+      next(err);
     });
 };
 
