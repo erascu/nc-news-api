@@ -18,21 +18,23 @@
     "exampleResponse": {
       "articles": [
         {
+          "article_id": 21,
           "title": "Football's Greatest Players",
           "topic": "football",
           "author": "john_doe",
-          "body": "An article about football's greatest players.",
           "created_at": "2024-01-01T00:00:00Z",
           "votes": 100,
+          "article_img_url": "https://images.pexels.com/photos/3448250/pexels-photo-3448250.jpeg?w=700&h=700",
           "comment_count": 10
         },
         {
+          "article_id": 34,
           "title": "Cooking with Love",
           "topic": "cooking",
           "author": "jane_doe",
-          "body": "An article about cooking delicious meals.",
           "created_at": "2024-02-01T00:00:00Z",
           "votes": 50,
+          "article_img_url": "https://images.pexels.com/photos/2403392/pexels-photo-2403392.jpeg?w=700&h=700",
           "comment_count": 5
         }
       ]
@@ -49,7 +51,8 @@
         "author": "john_doe",
         "body": "An article about football's greatest players.",
         "created_at": "2024-01-01T00:00:00Z",
-        "votes": 100
+        "votes": 100,
+        "article_img_url": "https://images.pexels.com/photos/11035471/pexels-photo-11035471.jpeg?w=700&h=700"
       }
     }
   },
@@ -59,18 +62,20 @@
     "exampleResponse": {
       "comments": [
         {
-          "comment_id": 1,
-          "body": "Great article!",
-          "author": "janedoe",
-          "created_at": "2024-01-02T00:00:00Z",
-          "votes": 10
+          "comment_id": 154,
+          "body": "Dolores qui illo et minima et facilis sunt. Enim velit sunt ut quae est ut.",
+          "article_id": 33,
+          "author": "cooljmessy",
+          "votes": 4,
+          "created_at": "2020-03-08T15:06:00.000Z"
         },
         {
-          "comment_id": 2,
-          "body": "Interesting read!",
-          "author": "johnsmith",
-          "created_at": "2024-01-03T00:00:00Z",
-          "votes": 5
+          "comment_id": 254,
+          "body": "Cupiditate commodi delectus molestiae exercitationem iure eum error et. Et pariatur dolores assumenda explicabo ut ut rem. Magni molestiae veritatis illum.",
+          "article_id": 33,
+          "author": "weegembump",
+          "votes": 16,
+          "created_at": "2020-03-21T11:05:00.000Z"
         }
       ]
     }
@@ -86,9 +91,10 @@
       "comment": {
         "comment_id": 3,
         "body": "Nice article!",
+        "article_id": 33,
         "author": "janedoe",
-        "created_at": "2024-01-03T00:00:00Z",
-        "votes": 0
+        "votes": 3,
+        "created_at": "2024-01-03T00:00:00Z"
       }
     }
   },
@@ -106,7 +112,8 @@
         "author": "john_doe",
         "body": "An article about football's greatest players.",
         "created_at": "2024-01-01T00:00:00Z",
-        "votes": 101
+        "votes": 101,
+        "article_img_url": "https://images.pexels.com/photos/209841/pexels-photo-209841.jpeg?w=700&h=700"
       }
     }
   },
@@ -118,17 +125,6 @@
         { "username": "john_doe", "name": "John Doe", "avatar_url": "http://example.com/avatar.jpg" },
         { "username": "janedoe", "name": "Jane Doe", "avatar_url": "http://example.com/avatar2.jpg" }
       ]
-    }
-  },
-  "GET /api/users/:username": {
-    "description": "Serves the profile information of a specific user based on their username",
-    "queries": [],
-    "exampleResponse": {
-      "user": {
-        "username": "john_doe",
-        "name": "John Doe",
-        "avatar_url": "http://example.com/avatar.jpg"
-      }
     }
   }
 }
