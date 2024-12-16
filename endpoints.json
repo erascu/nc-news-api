@@ -8,10 +8,7 @@
     "exampleResponse": {
       "topics": [
         { "slug": "football", "description": "The world's most popular sport" },
-        {
-          "slug": "cooking",
-          "description": "Delicious recipes and cooking tips"
-        }
+        { "slug": "cooking", "description": "Delicious recipes and cooking tips" }
       ]
     }
   },
@@ -125,16 +122,8 @@
     "queries": [],
     "exampleResponse": {
       "users": [
-        {
-          "username": "john_doe",
-          "name": "John Doe",
-          "avatar_url": "http://example.com/avatar.jpg"
-        },
-        {
-          "username": "janedoe",
-          "name": "Jane Doe",
-          "avatar_url": "http://example.com/avatar2.jpg"
-        }
+        { "username": "john_doe", "name": "John Doe", "avatar_url": "http://example.com/avatar.jpg" },
+        { "username": "janedoe", "name": "Jane Doe", "avatar_url": "http://example.com/avatar2.jpg" }
       ]
     }
   }

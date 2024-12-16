@@ -90,10 +90,23 @@ To ensure everything is working correctly, run the tests using:
 You can interact with the following endpoints via the hosted version of the API:
 
 - <b>GET /api/topics</b> - Get all topics
-- <b>GET /api/articles</b> - Get all articles
-- <b>POST /api/articles</b> - Create a new article
+- <b>GET /api/users</b> - Get a list of all users
+- <b>GET /api/articles</b> - Get all articles or filter them (optional query parameters: sort_by, order)
 - <b>GET /api/articles/:article_id</b> - Get a single article by ID
+- <b>GET /api/articles/:article_id/comments</b> - Retrieves all comments for a specific article by its article_id
+- <b>POST /api/articles/:article_id/comments</b> - Creates a comment for the specified article
+```Request body template
+{
+  "username": "existing_author_username",
+  "body": "comment_content"
+}
+```
 - <b>PATCH /api/articles/:article_id</b> - Update article votes
+```Request body template
+{
+  "inc_votes": newVote
+}
+```
 - <b>DELETE /api/articles/:article_id</b> - Delete an article
 
 ## Additional Information 💡
