@@ -1,5 +1,5 @@
 exports.psqlErr = (err, req, res, next) => {
-  console.log(err);
+  console.log(err, "<--- psql");
   if (
     err.code === "22P02" ||
     err.code === "23502" ||

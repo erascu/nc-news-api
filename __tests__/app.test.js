@@ -332,7 +332,7 @@ describe("GET /api/users", () => {
   });
 });
 
-describe.only("GET /api/articles (filter)", () => {
+describe("GET /api/articles (filter)", () => {
   test("200: Returns an array of articles, sorted by created_at in descending order by default", () => {
     return request(app)
       .get("/api/articles")
@@ -381,4 +381,25 @@ describe.only("GET /api/articles (filter)", () => {
         expect(msg).toBe("Bad request");
       });
   });
+});
+
+describe("GET /api/articles topic filter", () => {
+  test("200: Returns an article for topic 'coding'", () => {
+    return request(app)
+      .get("/api/articles?topic=coding")
+      .expect(200)
+      .then(({ body: { articles } }) => {
+        articles.forEach((article) => {
+          expect(article.topic).toBe("coding");
+        });
+      });
+  });
+  // test("404: Responds with an error message when the topic does not exist", () => {
+  //   return request(app)
+  //     .get("/api/articles?topic=unknowntopic")
+  //     .expect(404)
+  //     .then(({ body }) => {
+  //       expect(body.msg).toBe("Topic not found");
+  //     });
+  // });
 });
