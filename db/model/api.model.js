@@ -43,7 +43,7 @@ exports.selectArticles = (query) => {
 };
 
 exports.selectComments = (article_id) => {
-  const sqlQuery = `SELECT * FROM comments WHERE article_id = $1 ORDER BY comment_id ASC`;
+  const sqlQuery = `SELECT * FROM comments WHERE article_id = $1 ORDER BY created_at DESC`;
   const values = [article_id];
   return db.query(sqlQuery, values).then(({ rows }) => {
     return rows;
